@@ -471,18 +471,19 @@ CONFIGURE_CMD?=	${LINUXBASE}/bin/bash ./${CONFIGURE_SCRIPT}
 .    endif
 MAKE_CMD?=	${LINUXBASE}/usr/bin/make
 MAKE_SHELL?=	/bin/bash
-# Hack to avoid creating files and directories below LINUXBASE when staging
-# as root using Linux tools.
+# Hack to avoid creating files and directories below LINUXBASE when building
+# and staging as root using Linux tools.
 .    if ${.MAKE.UID} == 0 && ! ${:!${STAT} -f %Sf ${LINUXBASE}!:Mschg}
 .      if !defined(PACKAGE_BUILDING) || empty(.TARGETS) || make(all) || \
 			make(check-sanity) || make(show*-warnings)
-_l_flags_warn=	Enabling workaround to stage as root. Staging using Linux\
-		tools might create files and directories below ${LINUXBASE}.\
-		Attempting to avoid this by temporarily setting ${LINUXBASE}\
-		immutable. Please build and stage ports using linuxsrc as\
-		non-root instead.
+_l_flags_warn=	Enabling workaround to build/stage as root. Linux tools might\
+		create files and directories below ${LINUXBASE}, breaking the\
+		build. Attempting to avoid this by temporarily setting\
+		${LINUXBASE} immutable. Please build and stage ports using\
+		linuxsrc as non-root instead.
 WARNING+=	"${_l_flags_warn}"
 .      endif
+_USES_build+=	290:linuxsrc-freeze-linuxbase 980:linuxsrc-thaw-linuxbase
 _USES_install+=	290:linuxsrc-freeze-linuxbase 980:linuxsrc-thaw-linuxbase
 linuxsrc-freeze-linuxbase:
 		@-chflags schg ${LINUXBASE}
