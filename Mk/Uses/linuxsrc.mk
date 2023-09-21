@@ -483,8 +483,10 @@ _l_flags_warn=	Enabling workaround to build/stage as root. Linux tools might\
 		linuxsrc as non-root instead.
 WARNING+=	"${_l_flags_warn}"
 .      endif
-_USES_build+=	290:linuxsrc-freeze-linuxbase 980:linuxsrc-thaw-linuxbase
-_USES_install+=	290:linuxsrc-freeze-linuxbase 980:linuxsrc-thaw-linuxbase
+_l_tempfreeze=	290:linuxsrc-freeze-linuxbase 980:linuxsrc-thaw-linuxbase
+_USES_configure+=	${_l_tempfreeze}
+_USES_build+=		${_l_tempfreeze}
+_USES_install+=		${_l_tempfreeze}
 linuxsrc-freeze-linuxbase:
 		@-chflags schg ${LINUXBASE}
 linuxsrc-thaw-linuxbase:
