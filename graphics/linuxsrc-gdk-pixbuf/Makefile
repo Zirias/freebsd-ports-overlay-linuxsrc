@@ -15,7 +15,7 @@ BUILD_DEPENDS=	shared-mime-info>0:misc/shared-mime-info
 
 USES=		cpe linuxsrc:dist meson pkgconfig tar:xz trigger
 CPE_VENDOR=	gnome
-TRIGGERS=	gdk-pixbuf-query-loaders
+TRIGGERS=	linuxsrc-gdk-pixbuf-query-loaders
 USE_LDCONFIG=	yes
 USE_LINUXSRC=	gettext glib jpeg libpng \
 		gintrospect:build libxslt:build python:build
